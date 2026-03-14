@@ -1,0 +1,4 @@
+interface:
+  display_name: "Specifier"
+  short_description: "Draft a specification from an investigation report or request and save it to $PWD/docs/specs"
+  default_prompt: "Use $specifier to draft a specification from the provided investigation report, or from my request plus supporting context, and save it under $PWD/docs/specs with a yyyy-MM-dd filename prefix."
