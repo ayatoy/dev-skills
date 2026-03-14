@@ -6,6 +6,7 @@ This repository is my collection of agent skills.
 
 - `investigator`: skill for repository research and technical analysis
 - `planner`: skill for creating and managing ExecPlans
+- `pathfinder`: skill for turning changes or code areas into a prioritized human reading path
 - `specifier`: skill for organizing software requirements and specifications
 
 Each skill lives in its own directory and includes a `SKILL.md`, agent config, and supporting references.
@@ -44,6 +45,13 @@ The script detects each top-level directory that contains a `SKILL.md` and syncs
 - References:
   - [OpenAI Cookbook](https://cookbook.openai.com/articles/codex_exec_plans)
   - [YouTube](https://www.youtube.com/watch?v=Gr41tYOzE20)
+
+### Pathfinder
+
+`pathfinder` supports efficient human review and code reading preparation.
+
+- Use cases: staged or unstaged changes, commit review, commit range review, PR review, feature reading, subsystem reading
+- Role: converts raw diffs or code areas into a short ordered reading path with focus areas and watchpoints
 
 ### Specifier
 

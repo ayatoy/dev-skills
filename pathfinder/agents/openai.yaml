@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pathfinder"
+  short_description: "Turn diffs or code areas into a prioritized reading path"
+  default_prompt: "Use $pathfinder to turn the current changes, a commit, a PR, or a code area into a concise human reading path with focus areas, watchpoints, and an optional Mermaid diagram."
