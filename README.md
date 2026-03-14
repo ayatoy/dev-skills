@@ -1,6 +1,6 @@
-# Skills Repository
+# My Skills Repository
 
-This repository contains agent skills for investigation, planning, and specification work.
+This repository is my collection of agent skills.
 
 ## Overview
 
