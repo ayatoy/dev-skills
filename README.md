@@ -15,6 +15,47 @@ This repository is my collection of agent skills.
 
 Each skill lives in its own directory and includes a `SKILL.md`, agent config, and supporting references.
 
+## Skill Relationships
+
+The repository is designed around a supervised end-to-end workflow, while still allowing each skill to be used independently. You can use `supervisor` to orchestrate the full flow, or invoke individual skills directly when you only need a specific step. The diagram below shows how skills and their main artifacts connect.
+
+```mermaid
+flowchart TB
+    subgraph S["supervisor"]
+        direction TB
+
+        subgraph Q["current session"]
+            direction TB
+
+            A["User Request"] --> B("investigator") --> C[["docs/notes/...<br/>investigation note"]]
+
+            C -.-> D("resolver<br/>(optional)")
+            D -. update .-> C
+
+            C -.-> E("specifier<br/>(optional)")
+            E --> G[["docs/specs/...<br/>specification"]] --> F("planner")
+
+            C --> F
+            F --> H[["docs/plans/...<br/>ExecPlan"]] --> I("planner execution") --> J[["repository changes"]]
+
+            J --> K("reviewer") --> M[["docs/notes/...<br/>review note"]]
+            J --> L("pathfinder") --> N[["docs/notes/...<br/>reading path note"]]
+        end
+
+        Q --> O("recapper")
+    end
+    O --> P[["docs/notes/...<br/>session recap"]]
+```
+
+- `supervisor` wraps the full workflow, coordinates which skills run, and closes the session with `recapper`.
+- `investigator` is the default starting point for free-form requests.
+- `resolver` and `specifier` refine upstream inputs before planning when needed.
+- `investigator`, `reviewer`, `pathfinder`, and `recapper` primarily emit notes under `docs/notes/...`.
+- `specifier` emits specs under `docs/specs/...`.
+- `planner` has two roles: create/update the ExecPlan under `docs/plans/...`, then execute it once explicitly authorized.
+- `reviewer` and `pathfinder` are downstream read-focused steps after implementation and can run side by side.
+- `recapper` closes the workflow by summarizing the session as a whole, including the request, the work performed, and any artifacts created along the way.
+
 ## Installation
 
 Install all skills into `~/.agents/skills` from the repository root:
