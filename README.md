@@ -6,7 +6,16 @@ This repository is my collection of agent skills.
 
 This repository contains a set of focused agent skills that can be used independently or combined into a larger workflow.
 
-Each skill lives in its own directory and includes a `SKILL.md`, agent config, and supporting references. See `Skill Relationships` for how the skills connect, and `Skills` for per-skill details.
+- `investigator`: repository research and technical analysis
+- `resolver`: best-effort inferred answers for open questions in documents and free-form text
+- `planner`: creation and management of ExecPlans
+- `pathfinder`: prioritized human reading paths for code and changes
+- `reviewer`: two-pass review of changes or existing code
+- `specifier`: software requirements and specification drafting
+- `recapper`: detailed session recap and repeated work pattern analysis
+- `supervisor`: orchestration across the full workflow from investigation through recap
+
+Each skill lives in its own directory and includes a `SKILL.md`, agent config, and supporting references. See `Skill Relationships` for how the workflow connects, and `Skills` for per-skill details.
 
 ## Skill Relationships
 
@@ -40,14 +49,11 @@ flowchart TB
     O --> P[["docs/notes/...<br/>session recap"]]
 ```
 
-- `supervisor` wraps the full workflow, coordinates which skills run, and closes the session with `recapper`.
-- `investigator` is the default starting point for free-form requests.
-- `resolver` and `specifier` refine upstream inputs before planning when needed.
-- `investigator`, `reviewer`, `pathfinder`, and `recapper` primarily emit notes under `docs/notes/...`.
-- `specifier` emits specs under `docs/specs/...`.
-- `planner` has two roles: create/update the ExecPlan under `docs/plans/...`, then execute it once explicitly authorized.
+- The usual flow is `investigator` first, optional refinement through `resolver` or `specifier`, then planning and execution through `planner`.
 - `reviewer` and `pathfinder` are downstream read-focused steps after implementation and can run side by side.
-- `recapper` closes the workflow by summarizing the session as a whole, including the request, the work performed, and any artifacts created along the way.
+- `supervisor` orchestrates the end-to-end flow, while each skill remains independently callable when you only need one step.
+- Notes are primarily emitted under `docs/notes/...`, specs under `docs/specs/...`, and ExecPlans under `docs/plans/...`.
+- `recapper` closes the workflow by summarizing the session, the work performed, and the artifacts produced.
 
 ## Installation
 
