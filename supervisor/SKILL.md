@@ -64,6 +64,7 @@ DEM in the main thread is responsible for:
 - giving the user a concise final summary
 
 The main thread should not duplicate the deep work already delegated to a subagent unless that delegation clearly failed.
+- Ensure every saved artifact and user-facing deliverable produced by downstream skills matches the user's language unless the user asks otherwise.
 
 ## Subagent Rules
 
@@ -77,6 +78,7 @@ Use subagents by default for every phase when `spawn_agent` is available.
   - the exact user goal
   - the artifact paths it should use
   - the expected output
+- Pass the user's language expectation explicitly when it affects saved artifacts or user-facing deliverables.
 - Keep write phases sequential when they may touch the same artifact.
 - `reviewer` and `pathfinder` are read-only and may run in parallel after implementation is complete.
 - If subagents are unavailable, run the workflow locally in the same order and say so briefly.

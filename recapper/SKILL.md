@@ -28,6 +28,7 @@ Create a detailed markdown note that captures the current session so far and sav
 - Save exactly one main note under:
   - `$PWD/docs/notes/yyyy-MM-dd_*.md`
 - Use today's local date for `yyyy-MM-dd` unless the user requests another date.
+- Write the saved note in the user's language unless the user asks otherwise.
 - Capture the session in enough detail that another strong engineer can continue the work without reopening the full transcript.
 - Append a dedicated analysis section for repeated work patterns observed during the session.
 

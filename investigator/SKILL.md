@@ -17,6 +17,7 @@ Create a detailed markdown research report for a user-provided topic and save it
 - Save exactly one main report file under:
   - `$PWD/docs/notes/yyyy-MM-dd_*.md`
 - Use today's local date for `yyyy-MM-dd` unless the user requests another date.
+- Write the saved report in the user's language unless the user asks otherwise.
 - Keep report content evidence-based and traceable.
 
 ## Standard Workflow

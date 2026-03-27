@@ -64,6 +64,7 @@ This skill works especially well after `investigator`, `reviewer`, or `specifier
 - When multiple answers are plausible, choose one and mention the key assumption that makes it the best default.
 - Keep the answer short and decision-useful.
 - Match the language of the source document unless the user asks otherwise.
+- If the source document language is ambiguous, or if you create a separate artifact instead of editing in place, use the user's language by default.
 
 ## Annotation Style
 

@@ -23,6 +23,7 @@ Create a decision-ready markdown specification for a user-provided feature, prod
 - Save exactly one main specification file under:
   - `$PWD/docs/specs/yyyy-MM-dd_*.md`
 - Use today's local date for `yyyy-MM-dd` unless the user requests another date.
+- Write the saved specification in the user's language unless the user asks otherwise.
 - Treat the output as a draft specification unless the user explicitly asks for a final spec.
 - Keep the document traceable: every major requirement, decision, or assumption should be tied to an input, evidence, or explicit open question.
 
