@@ -63,8 +63,10 @@ The AI assistant in the main thread is responsible for:
 - spawning and coordinating subagents
 - passing the minimum necessary context to each phase
 - collecting artifact paths and key outcomes
+- keeping track of the active ExecPlan path once `planner` has created or selected it
 - deciding whether optional phases should run or be skipped
 - handling retries or fallbacks
+- ensuring implementation work that changes the repository is reflected back into the active ExecPlan
 - giving the user a concise final summary
 
 The main thread should not duplicate the deep work already delegated to a subagent unless that delegation clearly failed.
@@ -145,6 +147,7 @@ Important:
 - Pass the exact ExecPlan file path as the primary input to the second `planner` run.
 - This satisfies `planner`'s explicit execution rule; do not rely on vague approval text.
 - Keep the main thread focused on supervision while the planner execution subagent performs the implementation.
+- Treat the ExecPlan selected here as the active plan file for the rest of the supervisor cycle.
 
 ### 6. Reviewer
 
@@ -159,6 +162,7 @@ After implementation, run `reviewer` against the implementation diff unless the 
 - If the review surfaces blocking, high-confidence findings that should be fixed now, enter a review and implementation loop:
   - extract the concrete findings that require changes
   - run a narrowly scoped implementation pass to fix them
+  - if that fix implementation changes the repository, append the work performed to the active ExecPlan before rerunning `reviewer`
   - rerun `reviewer` on the updated implementation
   - continue until no blocking findings remain or a real blocker prevents a safe fix
 - Treat correctness, security, data loss, crash, obvious regression, and equivalent P0 or P1 issues as blocking by default.
@@ -195,7 +199,7 @@ Run `recapper` after `pathfinder` as the final phase of the completed supervisor
    - retry once with tighter instructions
    - stop on a real blocker
 5. After implementation, run `reviewer`.
-6. If `reviewer` finds blocking issues that should be fixed now, run a narrow implementation pass and then rerun `reviewer`.
+6. If `reviewer` finds blocking issues that should be fixed now, run a narrow implementation pass; when that pass changes the repository, update the active ExecPlan to record the work before rerunning `reviewer`.
 7. Repeat step 6 until no blocking findings remain or a real blocker prevents further safe changes.
 8. Run `pathfinder` exactly once on the final post-loop implementation state.
 9. Run `recapper` exactly once after `pathfinder`.
