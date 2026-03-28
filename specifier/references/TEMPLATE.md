@@ -29,7 +29,7 @@
 - Rationale:
   - 
 - Source:
-  - 
+  - [path/to/input](../notes/example.md)
 
 ## Proposed approach
 - 
@@ -48,5 +48,5 @@
 - 
 
 ## Inputs and sources
-| Type | Path/URL | Key Points |
+| Type | Link/URL | Key Points |
 | --- | --- | --- |

@@ -22,7 +22,7 @@
 - 
 
 #### Evidence:
--
+- [path/to/file](../../path/to/file)
 
 ## Impact / implications
 - 
@@ -35,5 +35,5 @@
 2. 
 
 ## Sources
-| Type | Path/URL | Key Points |
+| Type | Link/URL | Key Points |
 | --- | --- | --- |

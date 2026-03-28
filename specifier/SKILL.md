@@ -26,6 +26,9 @@ Create a decision-ready markdown specification for a user-provided feature, prod
 - Write the saved specification in the user's language unless the user asks otherwise.
 - Treat the output as a draft specification unless the user explicitly asks for a final spec.
 - Keep the document traceable: every major requirement, decision, or assumption should be tied to an input, evidence, or explicit open question.
+- When referencing source files, tests, configs, docs, notes, or directories in the saved specification, use repo-local relative Markdown links from the spec file so a human can click them in VSCode.
+- Prefer plain file or directory links such as `[docs/notes/2026-03-28_topic.md](../notes/2026-03-28_topic.md)` over environment-specific URIs or absolute paths.
+- If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
 
 ## Standard Workflow
 
@@ -56,6 +59,9 @@ Create a decision-ready markdown specification for a user-provided feature, prod
 ## File Creation and Management
 
 Create the destination path and template with `$HOME/.agents/skills/specifier/references/TEMPLATE.md` and save the filled draft to `$PWD/docs/specs/yyyy-MM-dd_*.md`. Always use the `yyyy-MM-dd_` prefix for filenames. Do not include local paths or environment-specific information in the spec; use placeholders like `$PWD` instead.
+- Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved spec.
+- Use repo-local relative Markdown links from the saved spec to any referenced source, test, doc, config, note, or directory.
+- Prefer link labels that match the repository path the reader expects to open.
 
 ## Drafting Checklist
 
@@ -90,3 +96,4 @@ Use this structure in the saved note:
 - Prefer small, testable requirements over broad aspirational language.
 - Keep prose concise, but complete enough for design and implementation discussion.
 - Make it easy for another engineer or product manager to challenge a requirement by tracing it back to the source material.
+- When citing repository evidence or inputs, point to the smallest useful location with a clickable Markdown link.

@@ -42,6 +42,9 @@ This skill works especially well after `investigator`, `reviewer`, or `specifier
 - If editing in place would be risky or ambiguous, create a sibling file with `-inferred` before the extension.
 - If the input is pasted text, return the revised text in the response unless the user asks to save it somewhere.
 - Preserve formatting and section order with the smallest reasonable diff.
+- When editing or creating a markdown artifact stored in the repository, use repo-local relative Markdown links for any added references to source files, tests, configs, docs, notes, specs, plans, or directories.
+- Preserve existing relative links when they already follow the artifact's local linking style.
+- Do not introduce local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific link forms into saved artifacts.
 
 ## Standard Workflow
 

@@ -31,6 +31,9 @@ Create a detailed markdown note that captures the current session so far and sav
 - Write the saved note in the user's language unless the user asks otherwise.
 - Capture the session in enough detail that another strong engineer can continue the work without reopening the full transcript.
 - Append a dedicated analysis section for repeated work patterns observed during the session.
+- When referencing source files, tests, configs, docs, plans, specs, notes, or directories in the saved note, use repo-local relative Markdown links from the note file so a human can click them in VSCode.
+- Prefer plain file or directory links such as `[docs/specs/2026-03-28_example.md](../../docs/specs/2026-03-28_example.md)` over environment-specific URIs or absolute paths.
+- If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/app/main.ts](../../src/app/main.ts) line 42`.
 
 ## Standard Workflow
 
@@ -84,6 +87,8 @@ If no meaningful repetition is present, state that explicitly and say what was c
 - Distinguish confirmed facts from inference when reconstructing intent.
 - Do not implement code changes unless the user separately asks for them.
 - Keep the note detailed, but remove filler phrasing and low-signal chat.
+- Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
+- Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, plan, spec, note, or directory.
 
 ## Suggested Note Structure
 
@@ -105,4 +110,5 @@ Use this structure in the saved note:
 - Another engineer should be able to resume work from the saved note alone.
 - Chronology should be specific enough to explain why the session ended up in its current state.
 - Repetition analysis should be evidence-based, not generic process advice.
+- File, spec, plan, and note references should be clickable from the saved note with repo-local relative Markdown links.
 - If the available session context is incomplete, say exactly what appears to be missing.
