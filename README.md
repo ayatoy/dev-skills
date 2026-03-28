@@ -40,17 +40,20 @@ flowchart TB
             C --> F
             F --> H[["docs/plans/...<br/>ExecPlan"]] --> I("planner execution") --> J[["repository changes"]]
 
-            J --> K("reviewer") --> M[["docs/notes/...<br/>review note"]]
-            J --> L("pathfinder") --> N[["docs/notes/...<br/>reading path note"]]
+            J --> K("reviewer") --> M[["docs/notes/...<br/>review note series"]]
+            K --> X{"blocking findings?"}
+            X -- yes --> Y("fix implementation") --> J
+            X -- no --> L("pathfinder") --> N[["docs/notes/...<br/>reading path note"]]
         end
 
-        Q --> O("recapper")
+        N --> O("recapper")
     end
     O --> P[["docs/notes/...<br/>session recap"]]
 ```
 
 - The usual flow is `investigator` first, optional refinement through `resolver` or `specifier`, then planning and execution through `planner`.
-- `reviewer` and `pathfinder` are downstream read-focused steps after implementation and can run side by side.
+- `reviewer` runs first after implementation; if it finds blocking issues worth fixing immediately, the workflow loops through implementation and review again before `pathfinder` runs.
+- In one completed `supervisor` cycle, `pathfinder` and `recapper` are the final two phases, in that order, and each produces exactly one main artifact for that cycle.
 - `supervisor` orchestrates the end-to-end flow, while each skill remains independently callable when you only need one step.
 - Notes are primarily emitted under `docs/notes/...`, specs under `docs/specs/...`, and ExecPlans under `docs/plans/...`.
 - `recapper` closes the workflow by summarizing the session, the work performed, and the artifacts produced.
@@ -112,6 +115,7 @@ The script detects each top-level directory that contains a `SKILL.md` and syncs
 
 - Use cases: staged or unstaged review, commit review, branch review, PR review, feature review, file review, directory review
 - Role: uses `change-review` for diffs and `code-review` for existing code areas, then applies a broader second pass for intent, security, regression, testing, operations, and AI readability, and saves the review as a markdown note under `$PWD/docs/notes`
+- Review artifact naming: if the same target is reviewed again, continue the existing review note filename as a numbered series instead of inventing a new unrelated name
 - Artifact links: use repo-local relative Markdown links so VSCode users can click from the note into source files and directories
 
 ### Specifier
@@ -133,7 +137,7 @@ The script detects each top-level directory that contains a `SKILL.md` and syncs
 `supervisor` is focused on orchestrating the full multi-skill workflow.
 
 - Use cases: end-to-end work that should start with investigation, continue through planning and implementation, then end with review, reading guidance, and session recap
-- Role: keeps the main thread as supervisor, delegates each phase to a subagent when available, and preserves the artifact chain across notes, specs, plans, reviews, and recap
+- Role: keeps the main thread as supervisor, delegates each phase to a subagent when available, preserves the artifact chain across notes, specs, plans, reviews, and recap, loops through review and fix passes until blocking issues are resolved before running `pathfinder`, and guarantees exactly one `pathfinder` artifact and one `recapper` artifact at the end of each completed cycle
 
 ## License
 

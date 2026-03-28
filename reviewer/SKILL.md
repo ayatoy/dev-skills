@@ -124,6 +124,7 @@ Save exactly one main review note under:
 
 Use today's local date for `yyyy-MM-dd` unless the user requests another date.
 Write the review in the user's language unless asked otherwise.
+Use a stable filename series when reviewing the same target more than once.
 
 Prefer this structure:
 
@@ -145,10 +146,16 @@ If there are no actionable findings, say so explicitly and mention any remaining
 
 - Create the destination directory if needed.
 - Save the review as a markdown artifact under `$PWD/docs/notes/` with a `yyyy-MM-dd_` filename prefix.
+- When no prior review artifact exists for the same target, choose a descriptive base filename such as `yyyy-MM-dd_<target-slug>_review.md`.
+- When a prior review artifact exists for the same target, reuse that artifact's filename stem as the series root.
+- Treat an unsuffixed prior review file as the first entry in the series; save the next file as `<series-root>_02.md`, then `_03.md`, and so on.
+- If the latest matching review artifact already ends with `_<NN>.md`, strip that numeric suffix, keep the rest of the stem unchanged, and increment `NN`.
+- Prefer the most recent same-target review artifact when deciding the next filename in the series.
+- Do not rename older review artifacts just to normalize the series.
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, or directory.
 - Prefer link labels that match the repository path the reader expects to open.
-- When reviewing the same target again later in the session, prefer creating a new note unless the user explicitly asks to overwrite a prior one.
+- When reviewing the same target again later in the session, create the next file in the existing filename series unless the user explicitly asks to overwrite a prior one.
 
 ## Pass 1 Rules For `change-review`
 

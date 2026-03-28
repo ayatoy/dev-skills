@@ -1,11 +1,14 @@
 ---
 name: supervisor
-description: Orchestrate an end-to-end repository workflow by supervising the local skills in this repo. Always start with `investigator`, then optionally run `resolver` and `specifier`, use `planner` to create and execute an ExecPlan, run `reviewer` and `pathfinder` on the result, and finish with `recapper`. Prefer running each phase in a subagent while the AI assistant stays in the main thread as the supervisor.
+description: Orchestrate an end-to-end repository workflow by supervising the local skills in this repo. Always start with `investigator`, then optionally run `resolver` and `specifier`, use `planner` to create and execute an ExecPlan, run a `reviewer`-driven fix loop until blocking issues are resolved, then run `pathfinder`, and finish with `recapper`. Prefer running each phase in a subagent while the AI assistant stays in the main thread as the supervisor.
 ---
 
 # Workflow Supervisor
 
 Supervise a full repository workstream from investigation through implementation review and session recap.
+
+A complete supervisor cycle always ends with exactly one `pathfinder` run followed by exactly one `recapper` run.
+For a completed cycle, each of those phases must produce exactly one main artifact for that cycle.
 
 Keep the AI assistant in the main thread as the orchestrator.
 Use a separate subagent for each work phase whenever subagents are available.
@@ -20,7 +23,6 @@ Use a separate subagent for each work phase whenever subagents are available.
 - Optional constraints:
   - stop after a named phase
   - resume from a named phase
-  - skip recap
   - language
   - timebox
 
@@ -32,8 +34,10 @@ Use a separate subagent for each work phase whenever subagents are available.
 4. `planner` to create or update an ExecPlan
 5. `planner` again to execute the ExecPlan
 6. `reviewer`
-7. `pathfinder`
-8. `recapper`
+7. implementation fix pass when the review finds blocking issues that should be fixed now
+8. repeat `reviewer` and implementation until blocking issues are resolved or a real blocker remains
+9. `pathfinder`
+10. `recapper`
 
 ## Resume Rules
 
@@ -80,7 +84,10 @@ Use subagents by default for every phase when `spawn_agent` is available.
   - the expected output
 - Pass the user's language expectation explicitly when it affects saved artifacts or user-facing deliverables.
 - Keep write phases sequential when they may touch the same artifact.
-- `reviewer` and `pathfinder` are read-only and may run in parallel after implementation is complete.
+- `reviewer` is read-only, but the supervisor may schedule a write-capable fix pass between review iterations.
+- Run `pathfinder` exactly once after the review and implementation loop is complete.
+- Run `recapper` exactly once after `pathfinder`, as the final phase of a completed supervisor cycle.
+- Do not create multiple main `pathfinder` artifacts or multiple main `recapper` artifacts for one completed supervisor cycle.
 - If subagents are unavailable, run the workflow locally in the same order and say so briefly.
 
 ## Phase Selection Rules
@@ -149,22 +156,33 @@ After implementation, run `reviewer` against the implementation diff unless the 
 - Expect one main markdown review note under `$PWD/docs/notes/yyyy-MM-dd_*.md`.
 - Treat findings as primary output.
 - Capture any unresolved questions or testing gaps for the final summary.
+- If the review surfaces blocking, high-confidence findings that should be fixed now, enter a review and implementation loop:
+  - extract the concrete findings that require changes
+  - run a narrowly scoped implementation pass to fix them
+  - rerun `reviewer` on the updated implementation
+  - continue until no blocking findings remain or a real blocker prevents a safe fix
+- Treat correctness, security, data loss, crash, obvious regression, and equivalent P0 or P1 issues as blocking by default.
+- Non-blocking findings, residual risks, and speculative questions do not require another implementation pass unless the user asks for it.
+- Each rerun of `reviewer` should produce a new review artifact that continues the prior review artifact's filename series.
 
 ### 7. Pathfinder
 
-After implementation, run `pathfinder` on the same narrowed reviewed scope.
+Run `pathfinder` only after the review and implementation loop is complete.
 
 - Prefer `review` mode for diffs.
+- Use the final post-fix implementation state as the input scope.
 - Optimize for the code-reading path first; include workflow artifacts only when they clarify behavior or user intent.
 - Optimize for the user's own follow-up reading and verification path.
 - Expect one main markdown reading-path note under `$PWD/docs/notes/yyyy-MM-dd_*.md`.
+- Run this phase exactly once per completed supervisor cycle.
 
 ### 8. Recapper
 
-Run `recapper` after the major work is complete unless the user asked to skip it.
+Run `recapper` after `pathfinder` as the final phase of the completed supervisor cycle.
 
 - Use it to create a handoff-quality summary note for the current session.
-- This is normally the last phase.
+- This is always the last phase of a completed supervisor cycle.
+- Expect exactly one main recap note under `$PWD/docs/notes/yyyy-MM-dd_*.md` for the cycle.
 
 ## Standard Orchestration Sequence
 
@@ -176,9 +194,12 @@ Run `recapper` after the major work is complete unless the user asked to skip it
    - skip an optional phase
    - retry once with tighter instructions
    - stop on a real blocker
-5. After implementation, run `reviewer` and `pathfinder`.
-6. Run `recapper` unless skipped.
-7. Return a concise summary with:
+5. After implementation, run `reviewer`.
+6. If `reviewer` finds blocking issues that should be fixed now, run a narrow implementation pass and then rerun `reviewer`.
+7. Repeat step 6 until no blocking findings remain or a real blocker prevents further safe changes.
+8. Run `pathfinder` exactly once on the final post-loop implementation state.
+9. Run `recapper` exactly once after `pathfinder`.
+10. Return a concise summary with:
    - completed phases
    - skipped phases
    - created or updated artifacts
@@ -198,6 +219,10 @@ Run `recapper` after the major work is complete unless the user asked to skip it
 - Do not run multiple implementation-capable subagents against overlapping write scopes at the same time.
 - Do not treat a planner-created plan as executed until the second `planner` run finishes.
 - Do not end the workflow after implementation without running `reviewer`.
+- Do not run `pathfinder` before the review and implementation loop is complete.
+- Do not finish a completed supervisor cycle without running `pathfinder` and then `recapper`.
+- Do not run `pathfinder` or `recapper` more than once in a single completed supervisor cycle.
+- Do not ignore a blocking review finding that the AI assistant can safely fix in the current workflow.
 - Do not lose the artifact chain; always know which note, spec, and plan the current phase is based on.
 
 ## Quality Bar
