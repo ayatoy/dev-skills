@@ -22,6 +22,7 @@ Each skill lives in its own directory and includes a `SKILL.md`, agent config, a
 The repository is designed around a supervised end-to-end workflow, while still allowing each skill to be used independently. You can use `supervisor` to orchestrate the full flow, or invoke individual skills directly when you only need a specific step. The diagram below shows how skills and their main artifacts connect.
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 24, 'rankSpacing': 14}}}%%
 flowchart TB
     subgraph S["supervisor"]
         direction TB
@@ -38,17 +39,14 @@ flowchart TB
             E --> G[["docs/specs/...<br/>specification"]] --> F("planner")
 
             C --> F
-            F --> H[["docs/plans/...<br/>ExecPlan"]] --> I("planner execution") --> J[["repository changes"]]
+            F --> H[["docs/plans/...<br/>ExecPlan"]] --> I("planner execution<br/>(implementation)") --> J[["repository changes"]]
 
-            J --> K("reviewer") --> M[["docs/notes/...<br/>review note series"]]
-            K --> X{"blocking findings?"}
-            X -- yes --> Y("fix implementation") --> J
+            J --> K("reviewer") --> M[["docs/notes/...<br/>review note series"]] --> X{"blocking<br/>findings?"}
             X -- no --> L("pathfinder") --> N[["docs/notes/...<br/>reading path note"]]
+            X -- yes --> Y("fix implementation") --> J
         end
-
-        N --> O("recapper")
+        Q --> O("recapper") --> P[["docs/notes/...<br/>session recap"]]
     end
-    O --> P[["docs/notes/...<br/>session recap"]]
 ```
 
 - The usual flow is `investigator` first, optional refinement through `resolver` or `specifier`, then planning and execution through `planner`.
