@@ -31,8 +31,8 @@ flowchart TB
         subgraph Q["current session"]
             direction TB
 
-            A["User Request"] -. optional .-> R("brainstormer") --> T[["docs/inbox/...<br/>brainstorm brief"]]
-            A["User Request"] --> B("investigator") --> C[["docs/notes/...<br/>investigation note"]]
+            A["User Request or Issue"] -. optional .-> R("brainstormer") --> T[["docs/inbox/...<br/>brainstorm brief"]]
+            A["User Request or Issue"] --> B("investigator") --> C[["docs/notes/...<br/>investigation note"]]
             T -. optional input .-> B
 
             C -.-> D("resolver<br/>(optional)")
