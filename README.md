@@ -132,7 +132,7 @@ The script detects each top-level directory that contains a `SKILL.md` and syncs
 `recapper` is focused on preserving the current session as a detailed handoff note.
 
 - Use cases: session recap, handoff note creation, full conversation summary, workflow repetition analysis, Agent Skill opportunity discovery
-- Role: reconstructs the session chronologically, records concrete actions and outcomes, appends repeated work pattern analysis, and recommends recurring patterns that should become Agent Skills
+- Role: reconstructs the session chronologically, records concrete actions and outcomes, updates an existing same-session recap when appropriate instead of duplicating it, appends repeated work pattern analysis, and recommends recurring patterns that should become Agent Skills
 
 ### Brainstormer
 

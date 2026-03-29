@@ -253,7 +253,7 @@ Run `recapper` after `pathfinder` as the final phase of the completed supervisor
 
 - Use it to create a handoff-quality summary note for the current session.
 - This is always the last phase of a completed supervisor cycle.
-- Expect exactly one main recap note under `$PWD/docs/notes/yyyy-MM-dd_*.md` for the cycle.
+- Expect exactly one main recap note under `$PWD/docs/notes/yyyy-MM-dd_*.md` for the cycle; if `recapper` is rerun for the same cycle, it should update that artifact rather than create a second recap note.
 
 ## Standard Orchestration Sequence
 
