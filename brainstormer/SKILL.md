@@ -48,6 +48,7 @@ If the user provides no explicit input, use the relevant session history as the 
 - Distill the conversation continuously; do not dump raw chat logs into the note.
 - When the same brainstorming thread continues, prefer updating the existing inbox note instead of creating a fresh file, unless the user asks to split topics or start a new thread.
 - If the user explicitly names source files, directories, or code paths they want considered, it is acceptable to record those concrete anchors in the note.
+- Never emit local filesystem absolute paths such as `/Users/...` in the saved note. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
 
 ## Standard Workflow
 
@@ -194,6 +195,7 @@ Treat concrete code paths as optional anchors, not as an exhaustive or binding i
 - When continuing an existing thread, reuse the most relevant current inbox note when defensible.
 - Do not create multiple competing inbox notes for the same active thread unless the user asks for separation.
 - Do not include local absolute paths, `file://` URLs, or editor-specific URIs in the saved note.
+- If a saved note needs to mention a local artifact path, use a `$PWD/...` placeholder rather than a machine-specific absolute path.
 
 Create new notes from:
 

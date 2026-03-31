@@ -135,6 +135,7 @@ The AI assistant in the main thread is responsible for:
 - ensuring implementation work that changes the repository is reflected back into the active ExecPlan
 - preserving user-created changes and incorporating them into the inferred workflow state instead of discarding them
 - giving the user a concise final summary
+- ensuring saved artifacts produced by downstream skills never expose machine-specific filesystem absolute paths and use `$PWD/...` placeholders when a workspace-rooted path must appear in prose
 
 The main thread should not duplicate the deep work already delegated to a subagent unless that delegation clearly failed.
 - Ensure every saved artifact and user-facing deliverable produced by downstream skills matches the user's language unless the user asks otherwise.
@@ -152,6 +153,7 @@ Use subagents by default for every phase when `spawn_agent` is available.
   - the artifact paths it should use
   - the expected output
 - Pass the user's language expectation explicitly when it affects saved artifacts or user-facing deliverables.
+- Pass the artifact path redaction rule explicitly when a phase will save or edit markdown: never emit local filesystem absolute paths such as `/Users/...`; use `$PWD/...` placeholders or repo-local relative links instead.
 - Keep write phases sequential when they may touch the same artifact.
 - `reviewer` is read-only, but the supervisor may schedule a write-capable fix pass between review iterations.
 - Run `pathfinder` exactly once after the review and implementation loop is complete.

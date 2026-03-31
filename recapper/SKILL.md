@@ -38,6 +38,7 @@ Create or update a detailed markdown note that captures the current session so f
 - Prefer plain file or directory links such as `[docs/specs/2026-03-28_example.md](../../docs/specs/2026-03-28_example.md)` over environment-specific URIs or absolute paths.
 - If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/app/main.ts](../../src/app/main.ts) line 42`.
 - Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved note; links must render in Markdown preview.
+- Never emit local filesystem absolute paths such as `/Users/...` in the saved note. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
 
 ## Existing Recap Reuse
 
@@ -162,6 +163,7 @@ If there are no credible skill candidates, state that explicitly and explain why
 - Do not create duplicate recap notes for the same ongoing session unless the user explicitly asks for a separate note.
 - Keep the note detailed, but remove filler phrasing and low-signal chat.
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
+- If a saved note needs to mention a local artifact path, use a `$PWD/...` placeholder rather than a machine-specific absolute path.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, plan, spec, note, or directory.
 - Keep the saved note previewable as Markdown: do not surround the whole artifact or any link list with code fences.
 - Keep skill recommendations evidence-based and conservative; recommend fewer, stronger candidates rather than a long speculative list.

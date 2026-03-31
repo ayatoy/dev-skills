@@ -43,6 +43,8 @@ When referencing repository files, tests, configs, docs, notes, specs, or direct
 Prefer link labels that preserve the repository-relative path the reader expects to open, such as `[src/api/server.ts](../../src/api/server.ts)`.
 If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
 Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved plan; links must render in Markdown preview.
+Never emit local filesystem absolute paths such as `/Users/...` in saved plan files. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
+Interpret `PLANS.md` references to "full path" for saved artifacts as repository-relative paths within the repo, not machine-specific filesystem absolute paths.
 When the input is a research/specification document, create a new ExecPlan in `$PWD/docs/plans` or update the user-specified target plan file there.
 When the input is an existing ExecPlan, keep working in that same plan file and update its living sections as execution proceeds.
 

@@ -24,6 +24,7 @@ Create a detailed markdown research report for a user-provided topic and save it
 - Prefer plain file or directory links such as `[src/api/server.ts](../../src/api/server.ts)` over environment-specific URIs or absolute paths.
 - If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
 - Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved report; links must render in Markdown preview.
+- Never emit local filesystem absolute paths such as `/Users/...` in the saved report. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
 
 ## Standard Workflow
 
@@ -43,6 +44,7 @@ Create a detailed markdown research report for a user-provided topic and save it
 Create the destination path and template with: `$HOME/.agents/skills/investigator/references/TEMPLATE.md` and save the filled report to `$PWD/docs/notes/yyyy-MM-dd_*.md`. Always use the `yyyy-MM-dd_` prefix for filenames. Do not include local paths or environment-specific information in the report; use placeholders like `$PWD` instead. 
 This prints the final path and creates a draft markdown file if it does not exist.
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
+- If a saved note needs to mention a local artifact path in prose, use a `$PWD/...` placeholder rather than a machine-specific absolute path.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, or directory.
 - Prefer link labels that match the repository path the reader expects to open.
 - Keep the saved note previewable as Markdown: do not surround the whole artifact or any link list with code fences.

@@ -31,6 +31,7 @@ Create a decision-ready markdown specification for a user-provided feature, prod
 - Prefer plain file or directory links such as `[docs/notes/2026-03-28_topic.md](../notes/2026-03-28_topic.md)` over environment-specific URIs or absolute paths.
 - If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
 - Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved specification; links must render in Markdown preview.
+- Never emit local filesystem absolute paths such as `/Users/...` in the saved specification. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
 
 ## Standard Workflow
 
@@ -62,6 +63,7 @@ Create a decision-ready markdown specification for a user-provided feature, prod
 
 Create the destination path and template with `$HOME/.agents/skills/specifier/references/TEMPLATE.md` and save the filled draft to `$PWD/docs/specs/yyyy-MM-dd_*.md`. Always use the `yyyy-MM-dd_` prefix for filenames. Do not include local paths or environment-specific information in the spec; use placeholders like `$PWD` instead.
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved spec.
+- If a saved spec needs to mention a local artifact path in prose, use a `$PWD/...` placeholder rather than a machine-specific absolute path.
 - Use repo-local relative Markdown links from the saved spec to any referenced source, test, doc, config, note, or directory.
 - Prefer link labels that match the repository path the reader expects to open.
 - Keep the saved spec previewable as Markdown: do not surround the whole artifact or any link list with code fences.

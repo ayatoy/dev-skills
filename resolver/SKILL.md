@@ -47,6 +47,7 @@ This skill works especially well after `investigator`, `reviewer`, or `specifier
 - Keep markdown artifacts as normal Markdown content: do not introduce outer fenced code blocks around the whole artifact or around link lists.
 - Never wrap Markdown links in backticks, inline code, or fenced code blocks when editing a saved markdown artifact; links must render in Markdown preview.
 - Do not introduce local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific link forms into saved artifacts.
+- If a saved markdown artifact needs to mention a local path in prose, rewrite it with a `$PWD/...` placeholder rather than a machine-specific absolute path.
 
 ## Standard Workflow
 

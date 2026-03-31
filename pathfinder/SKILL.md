@@ -81,6 +81,7 @@ When referencing source files, tests, configs, docs, or directories in the saved
 Prefer plain file or directory links such as `[src/app/router.ts](../../src/app/router.ts)` over environment-specific URIs or absolute paths.
 If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/app/router.ts](../../src/app/router.ts) line 42`.
 Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved note; links must render in Markdown preview.
+Never emit local filesystem absolute paths such as `/Users/...` in the saved note. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
 
 Save the guide as markdown and keep the saved note as the canonical artifact for this run.
 
@@ -89,6 +90,7 @@ Save the guide as markdown and keep the saved note as the canonical artifact for
 - Create the destination directory if needed.
 - Save the reading path under `$PWD/docs/notes/` with a `yyyy-MM-dd_` filename prefix.
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
+- If a saved note needs to mention a local artifact path, use a `$PWD/...` placeholder rather than a machine-specific absolute path.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, or directory.
 - Prefer link labels that match the repository path the reader expects to open.
 - Keep the saved note previewable as Markdown: do not surround the whole artifact or any link list with code fences.
