@@ -140,6 +140,7 @@ Save exactly one main review note under:
 Use today's local date for `yyyy-MM-dd` unless the user requests another date.
 Write the review in the user's language unless asked otherwise.
 Use a stable filename series when reviewing the same target more than once.
+Write the saved review as normal Markdown content, not inside an outer fenced code block.
 
 Prefer this structure:
 
@@ -154,6 +155,7 @@ When referencing source files, tests, configs, docs, or directories in the saved
 Prefer plain file or directory links such as `[src/api/server.ts](../../src/api/server.ts)` over environment-specific URIs or absolute paths.
 If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
 Each finding, risk, or open question that points at code should cite the smallest useful location with a clickable Markdown link.
+Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved review; links must render in Markdown preview.
 If the environment or caller also requires a specific review format such as JSON or inline comments, produce that format as needed, but still persist the main markdown review note unless the user explicitly asks not to save a file.
 
 Do not restate an older unresolved finding as a new finding.
@@ -176,6 +178,7 @@ If there are no new actionable findings beyond issues already captured in the pr
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, or directory.
 - Prefer link labels that match the repository path the reader expects to open.
+- Keep the saved note previewable as Markdown: do not surround the whole artifact or any link list with code fences.
 - When reviewing the same target again later in the session, create the next file in the existing filename series unless the user explicitly asks to overwrite a prior one.
 
 ## Pass 1 Rules For `change-review`

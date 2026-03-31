@@ -33,9 +33,11 @@ Create or update a detailed markdown note that captures the current session so f
 - Capture the session in enough detail that another strong engineer can continue the work without reopening the full transcript.
 - Append a dedicated analysis section for repeated work patterns observed during the session.
 - Append a dedicated recommendation section for recurring patterns that are strong candidates for Agent Skill creation.
+- Write the saved note as normal Markdown content, not inside an outer fenced code block.
 - When referencing source files, tests, configs, docs, plans, specs, notes, or directories in the saved note, use repo-local relative Markdown links from the note file so a human can click them in VSCode.
 - Prefer plain file or directory links such as `[docs/specs/2026-03-28_example.md](../../docs/specs/2026-03-28_example.md)` over environment-specific URIs or absolute paths.
 - If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/app/main.ts](../../src/app/main.ts) line 42`.
+- Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved note; links must render in Markdown preview.
 
 ## Existing Recap Reuse
 
@@ -161,6 +163,7 @@ If there are no credible skill candidates, state that explicitly and explain why
 - Keep the note detailed, but remove filler phrasing and low-signal chat.
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, plan, spec, note, or directory.
+- Keep the saved note previewable as Markdown: do not surround the whole artifact or any link list with code fences.
 - Keep skill recommendations evidence-based and conservative; recommend fewer, stronger candidates rather than a long speculative list.
 
 ## Suggested Note Structure

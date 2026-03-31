@@ -63,6 +63,7 @@ Save exactly one main reading-path note under:
 
 Use today's local date for `yyyy-MM-dd` unless the user requests another date.
 Write the output in the user's language unless asked otherwise.
+Write the saved note as normal Markdown content, not inside an outer fenced code block.
 
 Always produce a concise guide with these sections:
 
@@ -79,6 +80,7 @@ Add `Optional diagram` only when a small Mermaid diagram will reduce cognitive l
 When referencing source files, tests, configs, docs, or directories in the saved note, use repo-local relative Markdown links from the note file so a human can click them in VSCode.
 Prefer plain file or directory links such as `[src/app/router.ts](../../src/app/router.ts)` over environment-specific URIs or absolute paths.
 If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/app/router.ts](../../src/app/router.ts) line 42`.
+Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved note; links must render in Markdown preview.
 
 Save the guide as markdown and keep the saved note as the canonical artifact for this run.
 
@@ -89,6 +91,7 @@ Save the guide as markdown and keep the saved note as the canonical artifact for
 - Do not include local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific details in the saved note.
 - Use repo-local relative Markdown links from the saved note to any referenced source, test, doc, config, or directory.
 - Prefer link labels that match the repository path the reader expects to open.
+- Keep the saved note previewable as Markdown: do not surround the whole artifact or any link list with code fences.
 - When generating a second path for the same target, prefer a new note unless the user explicitly asks to update an existing one.
 
 ## Standard Workflow

@@ -38,9 +38,11 @@ When the input is ambiguous, prefer these interpretations:
 Find, read, update, or delete plan files in `$PWD/docs/plans`, always creating a plan file to facilitate collaboration with the user; when creating or updating a plan, always refer to PLANS.md; write the plan file in the user's language unless the user asks otherwise, but switch to English for narrowly scoped passages when higher precision or technical rigor is clearly needed, as plan files are co-edited with the user and updated interactively as needed.
 When creating a plan file, prepend the filename with the `yyyy-MM-dd_` prefix.
 Do not include local paths or other environment-specific information in plan files; use appropriate placeholders such as `$PWD` instead.
+Write the saved plan file as normal Markdown content, not inside an outer fenced code block.
 When referencing repository files, tests, configs, docs, notes, specs, or directories in a saved plan, use repo-local relative Markdown links from the plan file so a human can click them in VSCode.
 Prefer link labels that preserve the repository-relative path the reader expects to open, such as `[src/api/server.ts](../../src/api/server.ts)`.
 If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
+Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved plan; links must render in Markdown preview.
 When the input is a research/specification document, create a new ExecPlan in `$PWD/docs/plans` or update the user-specified target plan file there.
 When the input is an existing ExecPlan, keep working in that same plan file and update its living sections as execution proceeds.
 

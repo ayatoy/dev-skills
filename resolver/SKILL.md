@@ -44,6 +44,8 @@ This skill works especially well after `investigator`, `reviewer`, or `specifier
 - Preserve formatting and section order with the smallest reasonable diff.
 - When editing or creating a markdown artifact stored in the repository, use repo-local relative Markdown links for any added references to source files, tests, configs, docs, notes, specs, plans, or directories.
 - Preserve existing relative links when they already follow the artifact's local linking style.
+- Keep markdown artifacts as normal Markdown content: do not introduce outer fenced code blocks around the whole artifact or around link lists.
+- Never wrap Markdown links in backticks, inline code, or fenced code blocks when editing a saved markdown artifact; links must render in Markdown preview.
 - Do not introduce local absolute paths, `file://` URLs, `vscode://` URIs, or other machine-specific link forms into saved artifacts.
 
 ## Standard Workflow
