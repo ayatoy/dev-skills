@@ -3,6 +3,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+skills_root="$repo_root/skills"
 dest_root="${1:-$HOME/.agents/skills}"
 
 if ! command -v rsync >/dev/null 2>&1; then
@@ -13,11 +14,11 @@ fi
 mkdir -p "$dest_root"
 
 shopt -s nullglob
-skill_mds=("$repo_root"/*/SKILL.md)
+skill_mds=("$skills_root"/*/SKILL.md)
 shopt -u nullglob
 
 if [ "${#skill_mds[@]}" -eq 0 ]; then
-  echo "No skills found under $repo_root." >&2
+  echo "No skills found under $skills_root." >&2
   exit 1
 fi
 
