@@ -77,6 +77,20 @@ Use a custom destination if needed:
 
 The script detects each directory under `skills/` that contains a `SKILL.md` and syncs it with `rsync`, excluding `.git/` and `.DS_Store`.
 
+Uninstall the skills from the default destination:
+
+```bash
+./uninstall.sh
+```
+
+Use a custom destination if needed:
+
+```bash
+./uninstall.sh /path/to/destination
+```
+
+The uninstall script removes only the skill directories represented by this repository from the destination.
+
 ## Skills
 
 ### dev-investigator
