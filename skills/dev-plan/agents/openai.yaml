@@ -1,4 +1,4 @@
 interface:
-  display_name: "dev-plan"
-  short_description: "Create, revise, and execute ExecPlans in $PWD/docs/plans"
-  default_prompt: "Use $dev-plan to create, update, or execute an ExecPlan for this repository following references/PLANS.md. Accept free-form requests, dev-investigate/dev-spec documents, or an existing ExecPlan, and keep plan files under $PWD/docs/plans with a UTC yyyy-MM-dd'T'HH-mm-ss'Z' filename prefix. Use the same UTC format for any created or updated timestamp written inside the artifact."
+  display_name: "Dev Create ExecPlan"
+  short_description: "Create, update, or execute one ExecPlan under $PWD/docs/plans"
+  default_prompt: "Use $dev-plan to create, update, or execute an ExecPlan for this repository by following references/PLANS.md closely. Treat free-form requests and upstream notes as planning inputs first, and execute only when the user explicitly authorizes plan execution."

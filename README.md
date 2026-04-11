@@ -17,7 +17,7 @@ This repository contains focused agent skills for engineering work such as inves
 - `dev-brainstorm`: free-form ideation backed by a living inbox note under `docs/inbox`
 - `dev-orchestrate`: orchestration across the full workflow from investigation through recap, including resume, interrupt handling, and reopened follow-up mode from existing workspace state
 
-Each skill lives under `skills/` in its own directory and includes a `SKILL.md`, agent config, and supporting references. Use `dev-orchestrate` when you want the full workflow, or call individual skills directly when you need one focused operation. See `Skill Relationships` for the orchestration model and `Skills` for per-skill details.
+Each skill lives under `skills/` in its own directory and includes a `SKILL.md`, agent config, and supporting references. Use `dev-orchestrate` when you want the full workflow, or call individual skills directly when you need one focused operation. In normal use, most individual skills are intended to be invoked explicitly via `$dev-*` rather than discovered implicitly from generic requests; `dev-orchestrate` is the main skill that should explicitly delegate to downstream skills as phases in the larger workflow. See `Skill Relationships` for the orchestration model and `Skills` for per-skill details.
 
 ## Skill Relationships
 
@@ -94,6 +94,28 @@ Use a custom destination if needed:
 ```
 
 The uninstall script removes only the skill directories represented by this repository from the destination.
+
+## Shared Authoring Rules
+
+The repository keeps cross-skill authoring rules under `shared/`. These files are authoring-time canonical sources, not directly installed skills.
+
+- `shared/markdown-artifact-rules.md`: canonical Markdown artifact formatting and path-handling rules used by multiple skills
+
+Each installed skill remains self-contained. Shared authoring files are copied into the relevant skill-local `references/` directories before validation or release.
+
+Sync shared references from the repository root with:
+
+```bash
+python3 scripts/sync_skill_references.py
+```
+
+Validate all skills after edits with:
+
+```bash
+python3 scripts/quick_validate.py
+```
+
+The validator checks frontmatter shape, trigger guidance, human-facing `agents/openai.yaml` metadata, and whether skill-local shared-reference copies are in sync with the canonical files under `shared/`.
 
 ## Skills
 

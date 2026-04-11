@@ -1,4 +1,4 @@
 interface:
-  display_name: "dev-investigate"
-  short_description: "Conduct an in-depth investigation of the topic and save it to $PWD/docs/investigations"
-  default_prompt: "Use $dev-investigate to investigate the given topic deeply in this repository and save the report under $PWD/docs/investigations with a UTC yyyy-MM-dd'T'HH-mm-ss'Z' filename prefix. Use the same UTC format for any created or updated timestamp written inside the artifact."
+  display_name: "Dev Investigate Topic"
+  short_description: "Research a topic deeply and save one evidence-based report under $PWD/docs/investigations"
+  default_prompt: "Use $dev-investigate to investigate the given topic deeply in this repository, prefer local evidence first, add external primary sources when needed, and save one evidence-based report under $PWD/docs/investigations."

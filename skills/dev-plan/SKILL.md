@@ -1,61 +1,58 @@
 ---
 name: dev-plan
-description: When writing complex features or significant refactors, use an ExecPlan from design to implementation.
+description: Create, update, and execute ExecPlans for complex work in this repository using references/PLANS.md as the governing method. Use only when the user explicitly invokes `$dev-plan` or `dev-orchestrate` explicitly delegates to this skill to create, update, or execute an ExecPlan. Do not trigger this skill from generic requests for specifications, reviews, or direct implementation unless plan-driven execution is explicitly requested.
 ---
 
 # ExecPlans
 
-Create an execution plan following `PLANS.md` methodology.
+Create or execute an ExecPlan that follows `references/PLANS.md`.
 
 ## Inputs
 
-`dev-plan` accepts three primary input patterns. Choose the mode from the input itself instead of asking the user to restate it.
+`dev-plan` supports three main input shapes:
 
-1. Free-form implementation request:
-   - Examples: natural-language requests describing desired work, intended outcomes, changes to make, or problems to solve
-   - Behavior: inspect the repository as needed and create or update an ExecPlan that covers the requested work
-2. Upstream design or research document:
-   - Examples: documents produced by `dev-investigate`, `dev-spec`, or equivalent notes/specs provided as pasted markdown or file paths
-   - Behavior: extract the goal, scope, constraints, acceptance criteria, and open questions from the document, then create or update an ExecPlan derived from that material
-3. Existing dev-plan-generated plan file:
-   - Examples: an ExecPlan file path under `$PWD/docs/plans`, or pasted markdown that is clearly an existing ExecPlan created with `dev-plan`
-   - Behavior: treat the provided plan as the target plan and execute it, updating the living-plan sections in that same file as work progresses
+1. a free-form implementation request that needs planning first
+2. an upstream design or investigation document that should be turned into an ExecPlan
+3. an existing ExecPlan under `$PWD/docs/plans/` that should be resumed and executed
 
-When the input is ambiguous, prefer these interpretations:
+When the input is ambiguous, prefer treating non-plan markdown as source material for plan creation instead of executing it directly.
 
-- A file under `$PWD/docs/plans` that matches ExecPlan structure is an executable plan input
-- A file under `$PWD/docs/specs`, `$PWD/docs/investigations`, `$PWD/docs/reviews`, `$PWD/docs/walkthroughs`, `$PWD/docs/recaps`, or legacy `$PWD/docs/notes` is source material for plan creation, not a directly executable plan
-- If a pasted document does not clearly match ExecPlan structure, treat it as source material and create or update a plan instead of executing it
+## Output Contract
 
-## Instructions
+- Create or update exactly one ExecPlan under `$PWD/docs/plans/`
+- Keep the plan as a living document while work progresses
+- When executing a plan, continue updating the same plan file instead of creating a second plan
 
-1. **Read [PLANS.md](references/PLANS.md) first** - This contains all methodology, requirements, structure, and guidelines
-2. Follow the process and skeleton defined in [PLANS.md](references/PLANS.md) to the letter
-3. Do not jump straight into implementation. Unless the input is an explicitly executable dev-plan-generated ExecPlan, first produce or update the plan before making code changes.
- 
-## Manage plan files
+Follow `references/markdown-artifact-rules.md` for saved-plan formatting and path handling.
 
-Find, read, update, or delete plan files in `$PWD/docs/plans`, always creating a plan file to facilitate collaboration with the user; when creating or updating a plan, always refer to PLANS.md; write the plan file in the user's language unless the user asks otherwise, but switch to English for narrowly scoped passages when higher precision or technical rigor is clearly needed, as plan files are co-edited with the user and updated interactively as needed.
-When creating a plan file, prepend the filename with the `yyyy-MM-dd'T'HH-mm-ss'Z'_` UTC prefix.
-If the saved plan includes any created or updated timestamp in its content, use the same `UTC` format: `yyyy-MM-dd'T'HH-mm-ss'Z'`.
-Do not include local paths or other environment-specific information in plan files; use appropriate placeholders such as `$PWD` instead.
-Write the saved plan file as normal Markdown content, not inside an outer fenced code block.
-When referencing repository files, tests, configs, docs, notes, specs, or directories in a saved plan, use repo-local relative Markdown links from the plan file so a human can click them in VSCode.
-Prefer link labels that preserve the repository-relative path the reader expects to open, such as `[src/api/server.ts](../../src/api/server.ts)`.
-If line precision matters, keep the link target as the file and put the line number in visible text such as `[src/api/server.ts](../../src/api/server.ts) line 42`.
-Never wrap Markdown links in backticks, inline code, or fenced code blocks in the saved plan; links must render in Markdown preview.
-Never emit local filesystem absolute paths such as `/Users/...` in saved plan files. If a workspace-rooted path must appear in prose, rewrite it with a `$PWD/...` placeholder instead.
-Interpret `PLANS.md` references to "full path" for saved artifacts as repository-relative paths within the repo, not machine-specific filesystem absolute paths.
-When the input is a research/specification document, create a new ExecPlan in `$PWD/docs/plans` or update the user-specified target plan file there.
-When the input is an existing ExecPlan, keep working in that same plan file and update its living sections as execution proceeds.
+## Core Rules
 
-## Authorize plan execution
+1. Read `references/PLANS.md` first and follow it closely.
+2. Do not jump into implementation from a free-form request or upstream note before producing or updating the plan.
+3. Keep all required living sections current while execution proceeds.
 
-Only execute an ExecPlan when execution is explicitly authorized.
-Treat execution as authorized in exactly these cases:
+## Plan File Management
 
-- The user uses the approved trigger phrase `Execute the plan` (case-insensitive). In this case, interpret the target as the most recently created or updated plan file in `$PWD/docs/plans`, unless the user explicitly names a different plan file.
-- The user directly provides an existing dev-plan-generated ExecPlan file, either by file path or pasted content. In this case, treat that file as the explicit execution target.
+- Create new plan files under `$PWD/docs/plans/`
+- When the input is source material, create or update the target plan there
+- When the input is an existing ExecPlan, keep working in that same file
 
-Do not execute a plan in response to vague approvals such as "OK", "Sounds good", or "Go ahead" unless they also include an approved trigger phrase or an explicit dev-plan-generated plan file.
-Do not treat ordinary implementation requests or upstream design/research documents as permission to start coding immediately; they authorize planning first, not implementation.
+## Execution Authorization
+
+Execute an ExecPlan only when one of these is true:
+
+- the user says `Execute the plan`
+- the user directly provides an existing dev-plan-generated ExecPlan file path or pasted plan content
+
+Do not treat vague approval such as `OK` or `go ahead` as authorization to start coding.
+
+## Guardrails
+
+- Do not invent requirements that the source material does not support.
+- Do not let the plan drift away from the actual implementation state.
+- Do not create a second competing plan for the same active workstream unless the user explicitly wants that reset.
+
+## Quality Bar
+
+- A novice should be able to execute the plan using the plan file plus the current repo.
+- The plan should explain purpose, observable outcomes, concrete steps, and validation clearly enough to resume from any stopping point.
