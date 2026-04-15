@@ -14,9 +14,15 @@ Keep the main thread as the orchestrator. Resolve the execution mode before disp
 - A free-form request
 - An existing workflow artifact under `$PWD/docs/`
 - A dirty workspace that may reflect a paused or manually advanced workstream
-- Optional constraints such as execution mode, language, stop phase, resume phase, or timebox
+- Optional constraints such as execution mode, language, stop phase, resume phase, timebox, or explicit approval gates
 
 When the user provides a markdown artifact, pass that artifact through as the primary input to the next phase instead of rewriting it into a short summary.
+
+## Completion Policy
+
+- Treat an explicit end-to-end `dev-orchestrate` invocation as authorization to complete the full workflow without stopping between phases.
+- Do not pause after plan creation just to ask whether the ExecPlan should be executed, unless the user explicitly limited the run to planning, set a stop phase at or before `dev-plan`, or asked to approve each phase manually.
+- When a downstream skill requires stricter wording than the user's original request, restate that authorization explicitly in the delegated prompt instead of bouncing back to the user.
 
 ## Execution Modes
 
@@ -34,7 +40,7 @@ Interpret natural-language equivalents semantically. If the user hints at a mode
 2. optional `dev-resolve`
 3. optional `dev-spec`
 4. `dev-plan` to create or update an ExecPlan
-5. `dev-plan` again to execute that ExecPlan
+5. `dev-plan` again to execute that ExecPlan, explicitly delegating `Execute the plan.` together with the selected plan artifact unless a stop phase prevents execution
 6. `dev-review`
 7. narrow implementation and rerun review when blocking findings must be fixed now
 8. `dev-walkthrough`
@@ -67,6 +73,7 @@ See `references/resume-and-phase-rules.md` for the resume heuristic and optional
 - decide the current phase and whether the run belongs to the main cycle or follow-up mode
 - preserve user changes and route the workflow around them instead of discarding them
 - pass the minimum necessary context to each phase
+- translate end-to-end workflow approval into explicit downstream execution instructions when needed
 - keep the active ExecPlan path stable once selected
 - keep review and fix loops narrow and evidence-driven
 - ensure downstream artifact-producing phases follow `references/markdown-artifact-rules.md`
@@ -83,6 +90,7 @@ See `references/resume-and-phase-rules.md` for the resume heuristic and optional
 - Do not jump straight into implementation from a free-form request.
 - Do not restart from investigation when stronger evidence shows the workflow already progressed further.
 - Do not skip `dev-plan` or post-implementation `dev-review`.
+- Do not stop for a second approval at the plan-execution boundary unless the user explicitly asked for that pause.
 - Do not run overlapping write-capable phases in parallel.
 - Do not create multiple main walkthrough or recap artifacts for one completed cycle.
 

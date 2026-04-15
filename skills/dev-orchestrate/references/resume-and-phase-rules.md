@@ -13,6 +13,7 @@ Use this reference when the next phase is not obvious from the current prompt.
 - If implementation files changed and no review exists after them, resume at `dev-review`.
 - If the newest artifact is an investigation note and there is no newer plan-driving artifact, continue with `dev-resolve`, `dev-spec`, or `dev-plan`.
 - If the newest artifact is an ExecPlan and implementation has not started, continue with `dev-plan` execution.
+- If the active run came from an end-to-end `dev-orchestrate` request and there is no stop phase at planning, continue into `dev-plan` execution without asking for another approval.
 - If a full cycle already produced walkthrough and recap artifacts, and the new request is narrow, enter follow-up mode instead of starting a new cycle.
 
 ## Optional Phase Selection

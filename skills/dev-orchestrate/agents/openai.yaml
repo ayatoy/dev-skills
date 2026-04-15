@@ -1,4 +1,4 @@
 interface:
   display_name: "Dev Orchestrate Workflow"
   short_description: "Run or resume the full dev-* workflow, including same-workstream follow-up mode"
-  default_prompt: "Use $dev-orchestrate to manage this repository workflow end to end. Resolve the execution mode first, infer the correct starting phase from the workspace and provided artifacts, run the standard workflow from investigation through recap for new work, and reopen the existing workstream in follow-up mode when later narrow changes arrive."
+  default_prompt: "Use $dev-orchestrate to manage this repository workflow end to end. Resolve the execution mode first, infer the correct starting phase from the workspace and provided artifacts, run the standard workflow through recap without pausing at the ExecPlan execution boundary unless I set a stop phase, and reopen the existing workstream in follow-up mode when later narrow changes arrive."
